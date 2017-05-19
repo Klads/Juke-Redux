@@ -1,4 +1,4 @@
-import {SET_LYRICS} from '../constants.js'
+import {SET_LYRICS} from '../constants.js';
 
 export const setLyrics = (text) => {
 	return {
