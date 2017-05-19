@@ -1,29 +1,53 @@
 import React from 'react';
 import store from '../store';
+import Lyrics from '../components/Lyrics'
 
 export default class LyricsContainer extends React.Component {
 
-  constructor (props) {
-    super(props);
-    this.state = {
-    	storeState: store.getState()
-    }
+  constructor(props) {
+    super(props),
+    this.state = Object.assign({
+      artistQuery: '',
+      songQuery: ''
+    }, store.getState()),
+    this.setArtist= this.setArtist.bind(this);
+    this.setSong=this.setSong.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount () {
+  setArtist(userInput){
+    this.setState({artistQuery:userInput})
+  }
+
+  setSong(userInput){
+    this.setState({songQuery:userInput})
+  }
+
+  handleSubmit(event){
+    console.log("this is state, ", this.state)
+  }
+
+  componentDidMount() {
     const unsubscribe = store.subscribe(function () {
-	    console.log('----------------');
-	    console.log('State changed!!', store.getState());
-	});
+      this.setState(store.getState());
+    });
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unsubscribe();
   }
 
   render() {
-
-  	return (<h1>Just a container, more to come!</h1>)
+    return (
+      <Lyrics key = {'lyrics'} 
+      setArtist = {this.setArtist} 
+      setSong = {this.setSong} 
+      handleSubmit = {this.handleSubmit} 
+      text = {this.state.text}
+      artistQuery = {this.artistQuery}
+      songQuery = {this.songQuery}
+      />
+    )
   }
 
 }
